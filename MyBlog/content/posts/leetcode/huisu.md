@@ -41,7 +41,7 @@ relative: false
 
 输入：candidates = [2,3,5], target = 8,
 所求解集为： [ [2,2,2,2], [2,3,3], [3,5] ]
-
+```
 class Solution {
 List<List<Integer>> res = new LinkedList<>();
 
@@ -64,7 +64,7 @@ public List<List<Integer>> combinationSum(int[] candidates, int target) {
             return;
         }
 
-if (sum > target) {
+        if (sum > target) {
 // 超过目标和，直接结束
             return;
         }
@@ -82,7 +82,7 @@ if (sum > target) {
         }
     }
 }
-
+```
 这段代码是一个Java实现的回溯算法，用于找到给定整数数组 candidates 中的组合，使得这些组合的元素之和等于给定的目标整数 target。代码中使用了递归和回溯的方法来实现这个目标。
 具体来说，代码的主要结构如下：
 
@@ -102,45 +102,73 @@ backtrack 方法是回溯算法的主要函数。它接受四个参数：candida
 
 这种方法通过不断选择和撤销选择，逐渐构建出符合条件的组合，最终得到所有满足条件的组合列表，存储在 res 中，并返回给调用者。这是一种典型的回溯算法的实现方式，用于解决组合类的问题。
 让我们逐行解读给出的代码：
+```
+List<List<Integer>> res = new LinkedList<>(); 
+```
+- 创建一个列表 res，用于存储最终的组合结果，这里使用了泛型，表示它是一个包含整数列表的列表。
 
-List<List<Integer>> res = new LinkedList<>(); - 创建一个列表 res，用于存储最终的组合结果，这里使用了泛型，表示它是一个包含整数列表的列表。
+```
+public List<List<Integer>> combinationSum(int[] candidates, int target) 
+```
+ - 定义了一个公有方法 combinationSum，接受两参数 candidates 和 target，表示要在 candidates 数组中查找和为 target 的组合。
 
-public List<List<Integer>> combinationSum(int[] candidates, int target) { - 定义了一个公有方法 combinationSum，接受两参数 candidates 和 target，表示要在 candidates 数组中查找和为 target 的组合。
+```
+if (candidates.length == 0) { return res; } 
+```
+- 如果 candidates 数组为空，直接返回空的结果列表 res。
 
-if (candidates.length == 0) { return res; } - 如果 candidates 数组为空，直接返回空的结果列表 res。
+```
+backtrack(candidates, 0, target, 0); 
+```
+- 否则，调用 backtrack 方法开始回溯搜索，起始位置为 0，目标值为 target，当前累计和为 0。
 
+```
+LinkedList<Integer> track = new LinkedList<>(); 
+```
+- 创建一个整数链表 track，用于记录回溯的路径，即当前正在考虑的组合。
 
-backtrack(candidates, 0, target, 0); - 否则，调用 backtrack 方法开始回溯搜索，起始位置为 0，目标值为 target，当前累计和为 0。
+```
+void backtrack(int[] candidates, int start, int target, int sum) { 
+```
+- 定义了一个回溯算法的主要函数 backtrack，接受四个参数：candidates 数组，当前搜索的起始位置 start，目标值 target，以及当前累计的和 sum。
 
+```
+if (sum == target) { res.add(new LinkedList<>(track)); return; } 
+```
+- 如果当前累计和 sum 等于目标值 target，表示找到了一个符合条件的组合，将当前 track 中的元素复制一份并添加到 res 中，然后返回，结束本次搜索。
 
-LinkedList<Integer> track = new LinkedList<>(); - 创建一个整数链表 track，用于记录回溯的路径，即当前正在考虑的组合。
-
-
-void backtrack(int[] candidates, int start, int target, int sum) { - 定义了一个回溯算法的主要函数 backtrack，接受四个参数：candidates 数组，当前搜索的起始位置 start，目标值 target，以及当前累计的和 sum。
-
-
-if (sum == target) { res.add(new LinkedList<>(track)); return; } - 如果当前累计和 sum 等于目标值 target，表示找到了一个符合条件的组合，将当前 track 中的元素复制一份并添加到 res 中，然后返回，结束本次搜索。
-
-
-if (sum > target) { return; } - 如果当前累计和 sum 超过了目标值 target，直接返回，不再继续搜索，因为这条路径无法得到符合条件的组合。
+```
+if (sum > target) { return; } 
+```
+- 如果当前累计和 sum 超过了目标值 target，直接返回，不再继续搜索，因为这条路径无法得到符合条件的组合。
 
 
 接下来是回溯算法的核心部分，在循环中遍历 candidates 数组，从当前位置 start 开始。
 
+```
+track.add(candidates[i]); 
+```
+- 选择当前循环中的元素 candidates[i]，将其添加到 track 中，表示当前正在考虑这个元素。
 
-track.add(candidates[i]); - 选择当前循环中的元素 candidates[i]，将其添加到 track 中，表示当前正在考虑这个元素。
+```
+sum += candidates[i]; 
+```
+- 更新累计和 sum，将当前选择的元素的值累加到 sum 上。
 
+```
+backtrack(candidates, i, target, sum); 
+```
+- 递归调用 backtrack 方法，继续搜索下一层的可能性，传入参数为 candidates 数组，起始位置 i，目标值 target，和累计和 sum。
 
-sum += candidates[i]; - 更新累计和 sum，将当前选择的元素的值累加到 sum 上。
+```
+sum -= candidates[i];
+``` 
+- 递归返回后，撤销选择，即从 sum 中减去当前选择的元素的值。
 
-
-backtrack(candidates, i, target, sum); - 递归调用 backtrack 方法，继续搜索下一层的可能性，传入参数为 candidates 数组，起始位置 i，目标值 target，和累计和 sum。
-
-
-sum -= candidates[i]; - 递归返回后，撤销选择，即从 sum 中减去当前选择的元素的值。
-
-
-track.removeLast(); - 同样，从 track 中移除最后一个元素，表示当前不再考虑这个元素。
+```
+track.removeLast(); 
+```
+- 同样，从 track 中移除最后一个元素，表示当前不再考虑这个元素。
 
 
 这样，代码通过不断选择和撤销选择，递归搜索所有可能的组合，找到和为 target 的组合并存储在 res 中。最终，res 包含了所有满足条件的组合。
