@@ -36,7 +36,7 @@ languages:
      profileMode:
        enabled: true
        title:
-       subtitle: "欢迎光临寒舍</br>👇联系方式"
+       subtitle: "欢迎光临寒舍</br>联系方式"
        imageUrl: "img/logo.gif"
        imageTitle:
        imageWidth: 150
